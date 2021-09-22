@@ -5,44 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script>
-      if (document.location.search === "?with-css") {
-        document.write(`<link
-        rel="preload"
-        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Regular.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-      <link
-        rel="preload"
-        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Bold.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-      <link
-        rel="preload"
-        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Medium.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-      <link
-        rel="preload"
-        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Semibold.woff2"
-        as="font"
-        type="font/woff2"
-        crossorigin
-      />
-      <link
-        rel="stylesheet"
-        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/styles/SBSansText.0.1.0.css"
-      />`);
+    <style type="text/css">
+    <style type="text/css">
+      @font-face {
+          font-family: SB Sans Text;
+          src: url("SBSansText-Regular.woff2")
       }
-
-      function newContent() {}
-    </script>
+    </style>
 
     <title>Document</title>
     <style>
