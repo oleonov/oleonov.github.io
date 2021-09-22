@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      if (document.location.search === "?with-css") {
+        document.write(`<link
+        rel="preload"
+        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Regular.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+      <link
+        rel="preload"
+        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Bold.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+      <link
+        rel="preload"
+        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Medium.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+      <link
+        rel="preload"
+        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/fonts/SBSansText/SBSansText-Semibold.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdn-app.sberdevices.ru/shared-static/0.0.0/styles/SBSansText.0.1.0.css"
+      />`);
+      }
+
+      function newContent() {}
+    </script>
+
+    <title>Document</title>
+    <style>
+      div {
+        font-size: 2em;
+      }
+
+      .Bold {
+        font-family: "SB Sans Text", "Helvetica", "Arial", sans-serif;
+        font-weight: bold;
+      }
+
+      .Semibold {
+        font-family: "SB Sans Text", "Helvetica", "Arial", sans-serif;
+        font-weight: 600;
+      }
+
+      .Medium {
+        font-family: "SB Sans Text", "Helvetica", "Arial", sans-serif;
+        font-weight: 500;
+      }
+
+      .Regular {
+        font-family: "SB Sans Text", "Helvetica", "Arial", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Bold">Это BOLD</div>
+    <div class="Semibold">Это SEMIBOLD</div>
+    <div class="Medium">Это Medium</div>
+    <div class="Regular">Это Regular</div>
+    <script>
+      function renderedfont(ele) {
+        var getDefaultFonts = function () {
+          var iframe = document.createElement("iframe");
+          var html = "<html><body>";
+          var fonts;
+          document.body.appendChild(iframe);
+          iframe.contentWindow.document.open();
+          iframe.contentWindow.document.write(html);
+          var subele = iframe.contentWindow.document.createElement(ele.tagName);
+          iframe.contentWindow.document.body.appendChild(subele);
+          fonts = getComputedStyle(subele)["font-family"];
+          document.body.removeChild(iframe);
+          return fonts;
+        };
+        var fonts =
+          getComputedStyle(ele)["font-family"] + "," + getDefaultFonts();
+        var fontsArray = fonts.split(",");
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        var testString = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()ñ";
+        var prevImageData;
+        document.body.appendChild(canvas);
+        canvas.width = 500;
+        canvas.height = 300;
+        fontsArray.unshift('"Font That Doesnt Exists ' + Math.random() + '"');
+
+        for (var i = 0; i < fontsArray.length; i++) {
+          var fontName = fontsArray[i].trim();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.font = "16px " + fontName + ", monospace";
+          ctx.fillText(testString, 10, 100);
+          var idata = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          var data = idata.data;
+          if (prevImageData) {
+            for (var j = 0; j < data.length; j += 3) {
+              if (prevImageData[j + 3] !== data[j + 3]) {
+                document.body.removeChild(canvas);
+                return fontName;
+              }
+            }
+          }
+          prevImageData = data;
+        }
+
+        document.body.removeChild(canvas);
+        return "monospace";
+      }
+
+      const divs = document.querySelectorAll("div");
+      for (const div of divs) {
+        const font = renderedfont(div);
+        div.innerHTML += ` (${font})`;
+      }
+    </script>
+  </body>
+</html>
